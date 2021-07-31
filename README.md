@@ -1,10 +1,56 @@
-# Mudah Framework
-
-Este README deve ser utilizado para consultas do projeto e instruções de instalação do mesmo.
-
 # Iniciando
 
 Este projeto foi desenvolvido como base para os testes técnicos, e foi feito de maneira que pudesse ter um desenvolvimento rápido e simples, porém, ao mesmo tempo robusto. Utiliza o padrão MVC, dentro da pasta App, onde poderemos encontrar as pastas Cache, Controller, Core, Model e View. Em cache temos um cache das páginas para que possam ser geradas mais rapidamente.
+
+# Instalação Via Docker
+
+Para instalar é necessário que tenha o Docker e o Docker Compose instalado na maquina. Para evitar problemas de permissão com o Docker
+ou caso tenha problemas de permissão, recomendamos criar manualmente a pasta vendor na raiz do projeto, e dar permissão 777 para ela.
+Também é necessário a permissão 777 para a pasta App\Cache. Para subir o container basta executar o comando
+ - docker-compose up -d --no-deps --build
+
+Depois você poderá instalar as dependências do composer com o comando abaixo:
+   - docker-compose exec app composer install
+
+Os testes unitários poderão ser executados com o comando abaixo:
+ - docker-compose exec app ./vendor/bin/phpunit tests --colors
+
+O banco de dados poderá ser importando utilizando o arquivo sql na raiz do projeto. As propriedades de conexão com o DB (MySql) se encontram no .env do projeto
+ou no arquivo docker-composer.yml. Para utilizar o DB no Workbench, Dbeaver ou similares, altere o host de "db" para 127.0.0.1 para conectar via TCP ou localhost para conexão via socket.
+
+# Instalação Sem o Docker
+Este projeto pode ser inicializado usando servidor local do PHP com o seguinte comando
+
+```sh
+php -S localhost:8000 -t public
+```
+É importante que seja apontado para a pasta public. Também pode ser utilizado utilizando Vhosts apontando para a pasta public
+
+### Requisitos
+
+Para o projeto funcionar corretamente é importante ter o PHP versão >= 7.2.+ e o MySql. É importante dar pemissão de leitura e escrita na pasta /public/images/product.
+
+### Mysql
+
+É preciso definir o comando abaixo no MySql para que o sistema leia corretamente o arquivo .sql
+
+```sql
+SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+```
+
+Importe o arquivo .sql que está na raiz do projeto para um banco de dados MySql.
+
+### .env
+
+Abra o arquivo .env na pasta raiz do projeto e altere as variáveis de ambiente com os dados do banco de dados que será utilizado.
+
+### Composer
+
+Este projeto utiliza o [composer](https://getcomposer.org/) para o gerenciamento de bibliotecas, por isso é importante ter o composer instalado. Após instalado rosa o comando
+
+```sh
+composer install
+```
 
 ### Criando Controller
 Em Controller temos todos os arquivos controladores deste projeto. Caso seja necessário adicionar algum é bem simples, bastando seguir o modelo abaixo:
@@ -107,40 +153,6 @@ E dentro da variável $routes na função simpleDispatcher() poderá adicionar a
 ```php
 $route->get('/url', [Controller::class, 'function']);
 $route->post('/url', [Controller::class, 'function']);
-```
-
-# Instalação
-Este projeto pode ser inicializado usando servidor local do PHP com o seguinte comando
-
-```sh
-php -S localhost:8000 -t public
-```
-É importante que seja apontado para a pasta public. Também pode ser utilizado utilizando Vhosts apontando para a pasta public
-
-### Requisitos
-
-Para o projeto funcionar corretamente é importante ter o PHP versão >= 7.2.+ e o MySql. É importante dar pemissão de leitura e escrita na pasta /public/images/product.
-
-### Mysql
-
-É preciso definir o comando abaixo no MySql para que o sistema leia corretamente o arquivo .sql
-
-```sql
-SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
-```
-
-Importe o arquivo .sql que está na raiz do projeto para um banco de dados MySql.
-
-### .env
-
-Abra o arquivo .env na pasta raiz do projeto e altere as variáveis de ambiente com os dados do banco de dados que será utilizado.
-
-### Composer
-
-Este projeto utiliza o [composer](https://getcomposer.org/) para o gerenciamento de bibliotecas, por isso é importante ter o composer instalado. Após instalado rosa o comando
-
-```sh
-composer install
 ```
 
 # Bibliotecas
