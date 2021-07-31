@@ -6,7 +6,7 @@ Este projeto foi desenvolvido como base para os testes técnicos, e foi feito de
 
 Para instalar é necessário que tenha o Docker e o Docker Compose instalado na maquina. Para evitar problemas de permissão com o Docker
 ou caso tenha problemas de permissão, recomendamos criar manualmente a pasta vendor na raiz do projeto, e dar permissão 777 para ela.
-Também é necessário a permissão 777 para a pasta App\Cache. Para subir o container basta executar o comando
+Também é necessário a permissão 777 para a pasta App\Cache e no arquivo composer.lock.json. Para subir o container basta executar o comando
  - docker-compose up -d --no-deps --build
 
 Depois você poderá instalar as dependências do composer com o comando abaixo:
