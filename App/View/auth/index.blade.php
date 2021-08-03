@@ -28,9 +28,17 @@
                 data: {email: email, password: password},
                 success: function (data) {
                     console.log(data);
+                    if (data.success) {
+                        window.location.href = "{{ url('/clients') }}"
+                    } else {
+                        Swal.fire(
+                            'Login ou senha inválidos'
+                        );
+                    }
                 },
                 error: function (data) {
                     console.error(data);
+
                 },
             });
         }
